@@ -1,0 +1,10 @@
+altair
+joblib
+numpy
+pandas
+pydeck
+sklearn
+streamlit
+plotly
+pillow
+pydeck
