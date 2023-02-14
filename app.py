@@ -17,9 +17,10 @@ import json
 
 df = pd.read_excel('src/SASB.xlsx', sheet_name= 0)
 df1 = pd.read_excel('src/SASB.xlsx', sheet_name= 1)
-df_note = pd.read_csv('src/notation.csv')
+#df_note = pd.read_csv('src/notation.csv')
+df_note = pd.read_excel('src/score_all.xlsx', sheet_name='score')
 
-list_industry = df['Industry'].unique().tolist()
+list_industry = df_note['Industry'].unique().tolist()
 
 score_A = Image.open('src/Score_A.png')
 score_B = Image.open('src/Score_B.png')
@@ -39,6 +40,18 @@ def to_colours(chiffre):
         return '#FF0A00'
     elif chiffre < 20 and chiffre >= 00:
         return '#AC00FF'
+
+def to_numbers(lettre):
+    if lettre == 'A':
+        return 100
+    if lettre == 'B':
+        return 70
+    if lettre == 'C':
+        return 50
+    if lettre == 'D':
+        return 30
+    if lettre == 'E':
+        return 0
 
 # SETTING PAGE CONFIG TO WIDE MODE
 st.set_page_config(layout="wide")
@@ -74,16 +87,16 @@ with col2:
 
 with col1:
     # st.title('This is a plot :')
-    cli = select_note['Climate Change'][0]
-    pol = select_note['Pollution'][0]
-    wat = select_note['Water and Marine Resources'][0]
-    bio = select_note['Biodiversity and Ecosystems'][0]
-    cir = select_note['Circular Economy'][0]
+    cli = to_numbers(select_note['Climate change'][0])
+    pol = to_numbers(select_note['Pollution'][0])
+    wat = to_numbers(select_note['Water and marine resources'][0])
+    bio = to_numbers(select_note['Biodiversity'][0])
+    cir = to_numbers(select_note['Circular economy'][0])
 
     df = pd.DataFrame(dict(
         r=[cli, pol, wat, bio, cir],
-        theta=['Climate Change','Pollution','Water and Marine Resources',
-            'Biodiversity and Ecosystems', 'Circular Economy']))
+        theta=['Climate change','Pollution','Water and marine resources',
+            'Biodiversity', 'Circular economy']))
     fig = px.line_polar(df, r='r', theta='theta', line_close=True)
     fig.update_traces(fill='toself')
     st.plotly_chart(fig, use_container_width=True)
@@ -96,30 +109,33 @@ with col2:
     scol1, scol2, scol3, scol4, scol5 = st.columns(5)
 
     with scol1:
-        cli_o = select_note['Climate Change_Ordinal'][0]
-        st.image(Image.open(f'src/Score_{cli_o}.png'), caption='Climate Change')
+        cli_o = select_note['Climate change'][0]
+        st.image(Image.open(f'src/Score_{cli_o}.png'), caption='Climate change')
 
     with scol2:
-        pol_o = select_note['Pollution_Ordinal'][0]
+        pol_o = select_note['Pollution'][0]
         st.image(Image.open(f'src/Score_{pol_o}.png'), caption='Pollution')
 
     with scol3:
-        wat_o = select_note['Water and Marine Resources_Ordinal'][0]
-        st.image(Image.open(f'src/Score_{wat_o}.png'), caption='Water and Marine Resources')
+        wat_o = select_note['Water and marine resources'][0]
+        st.image(Image.open(f'src/Score_{wat_o}.png'), caption='Water and marine resources')
 
     with scol4:
-        bio_o = select_note['Biodiversity and Ecosystems_Ordinal'][0]
-        st.image(Image.open(f'src/Score_{bio_o}.png'), caption='Biodiversity and Ecosystems')
+        bio_o = select_note['Biodiversity'][0]
+        st.image(Image.open(f'src/Score_{bio_o}.png'), caption='Biodiversity')
 
     with scol5:
-        cir_o = select_note['Circular Economy_Ordinal'][0]
-        st.image(Image.open(f'src/Score_{cir_o}.png'), caption='Circular Economy')
+        cir_o = select_note['Circular economy'][0]
+        st.image(Image.open(f'src/Score_{cir_o}.png'), caption='Circular economy')
 
     scol6, scol7 = st.columns(2)
 
-    note = select_note['Globals_Ordinal'][0]
-    score_global = select_note['Globals'][0]
-    score_gcolor = to_colours(score_global)
+    note = select_note['Globals'][0] 
+    score_global = to_numbers(select_note['Globals'][0])
+
+    st.text(score_global)
+
+    score_gcolor = to_colours( score_global )
 
     components.html(f"""
     <div style="display: flex; width: 400px; height: 100px; background-color: #f2f2f2; border-radius: 40px; margin: auto;">
