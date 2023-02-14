@@ -15,6 +15,11 @@ from PIL import Image
 from urllib.request import urlopen
 import json
 
+df = pd.read_excel('src/SASB.xlsx', sheet_name= 0)
+df1 = pd.read_excel('src/SASB.xlsx', sheet_name= 1)
+
+list_industry = df['Industry'].unique().tolist()
+
 score_A = Image.open('src/Score_A.png')
 score_B = Image.open('src/Score_B.png')
 score_C = Image.open('src/Score_C.png')
@@ -31,8 +36,14 @@ col1, col2 = st.columns(2)
 with col1:
     option = st.selectbox(
         'What is your sector?',
-        ('XXXXXXX', 'YYYYYYYY', 'ZZZZZZZZ'))
+        (list_industry))
     # st.write('You selected:', option)
+
+    # Depuis la selection de Menu déroulant
+    select = df[ df['Industry'] == str(option) ].reset_index()
+    
+    select1 = df1[ df1['Industry'] == str(option) ].reset_index()
+    select1 = select1[ select1['Accounting Metric Category'] == 'Discussion and Analysis'].reset_index()
 
 with col2:
     #if st.button('Say hello'):
@@ -90,32 +101,24 @@ with col2:
     
 col1bis, col2bis = st.columns(2)
 
+
+
 with col1bis:
     st.subheader('Disclosure Topic :')
 
-    expander = st.expander("Management of Chemicals in Products")
-    expander.write('The introduction of the Consumer Product Safety Improvement Act in the U.S. and the Registration, Evaluation, Authorization, and Restriction of Chemicals legislation in the EU demonstrates increasing regulatory and stakeholder concern surrounding the use of harmful or potentially harmful substances in consumer products, including apparel, accessories, and footwear. Finished apparel and footwear products have been found to contain traces of chemicals that have been banned or regulated. Depending on the chemical, the amount present in a product, and the type of exposure that consumers face, specific substances can be carcinogenic, and can disrupt hormone activity in humans and other organisms. Failure to manage this issue may generate additional regulatory oversight and impact a company’s social license to operate. In addition, the presence of harmful chemicals in products can lead to recalls, litigation, and reputational damage. Companies in this industry can work in both the design and manufacturing phases to manage the use of chemicals of concern, develop safe alternatives, and eliminate those that have been banned. Given the industry’s reliance on outsourced manufacturing, this involves proactive partnerships with suppliers. In managing this issue, companies must balance the hazard posed to consumers presented by certain chemicals with the quality of a product and its costs of production.')
-
-    expander = st.expander("Management of Chemicals in Products")
-    expander.write('The introduction of the Consumer Product Safety Improvement Act in the U.S. and the Registration, Evaluation, Authorization, and Restriction of Chemicals legislation in the EU demonstrates increasing regulatory and stakeholder concern surrounding the use of harmful or potentially harmful substances in consumer products, including apparel, accessories, and footwear. Finished apparel and footwear products have been found to contain traces of chemicals that have been banned or regulated. Depending on the chemical, the amount present in a product, and the type of exposure that consumers face, specific substances can be carcinogenic, and can disrupt hormone activity in humans and other organisms. Failure to manage this issue may generate additional regulatory oversight and impact a company’s social license to operate. In addition, the presence of harmful chemicals in products can lead to recalls, litigation, and reputational damage. Companies in this industry can work in both the design and manufacturing phases to manage the use of chemicals of concern, develop safe alternatives, and eliminate those that have been banned. Given the industry’s reliance on outsourced manufacturing, this involves proactive partnerships with suppliers. In managing this issue, companies must balance the hazard posed to consumers presented by certain chemicals with the quality of a product and its costs of production.')
-
-    expander = st.expander("Management of Chemicals in Products")
-    expander.write('The introduction of the Consumer Product Safety Improvement Act in the U.S. and the Registration, Evaluation, Authorization, and Restriction of Chemicals legislation in the EU demonstrates increasing regulatory and stakeholder concern surrounding the use of harmful or potentially harmful substances in consumer products, including apparel, accessories, and footwear. Finished apparel and footwear products have been found to contain traces of chemicals that have been banned or regulated. Depending on the chemical, the amount present in a product, and the type of exposure that consumers face, specific substances can be carcinogenic, and can disrupt hormone activity in humans and other organisms. Failure to manage this issue may generate additional regulatory oversight and impact a company’s social license to operate. In addition, the presence of harmful chemicals in products can lead to recalls, litigation, and reputational damage. Companies in this industry can work in both the design and manufacturing phases to manage the use of chemicals of concern, develop safe alternatives, and eliminate those that have been banned. Given the industry’s reliance on outsourced manufacturing, this involves proactive partnerships with suppliers. In managing this issue, companies must balance the hazard posed to consumers presented by certain chemicals with the quality of a product and its costs of production.')
+    for i in range(len(select)):
+        expander = st.expander(select['Disclosure Topic'][i])
+        expander.write(select['Disclosure Topic Description'][i])
 
 with col2bis:
     st.subheader('Questions :')
 
-    expander = st.expander("Management of Chemicals in Products")
-    expander.write('The introduction of the Consumer Product Safety Improvement Act in the U.S. and the Registration, Evaluation, Authorization, and Restriction of Chemicals legislation in the EU demonstrates increasing regulatory and stakeholder concern surrounding the use of harmful or potentially harmful substances in consumer products, including apparel, accessories, and footwear. Finished apparel and footwear products have been found to contain traces of chemicals that have been banned or regulated. Depending on the chemical, the amount present in a product, and the type of exposure that consumers face, specific substances can be carcinogenic, and can disrupt hormone activity in humans and other organisms. Failure to manage this issue may generate additional regulatory oversight and impact a company’s social license to operate. In addition, the presence of harmful chemicals in products can lead to recalls, litigation, and reputational damage. Companies in this industry can work in both the design and manufacturing phases to manage the use of chemicals of concern, develop safe alternatives, and eliminate those that have been banned. Given the industry’s reliance on outsourced manufacturing, this involves proactive partnerships with suppliers. In managing this issue, companies must balance the hazard posed to consumers presented by certain chemicals with the quality of a product and its costs of production.')
+    for i in range(len(select1)):
+        expander = st.expander(select1['Accounting Metric Category'][i])
+        expander.write(select1['Accounting Metric'][i])
+        
 
-    expander = st.expander("Management of Chemicals in Products")
-    expander.write('The introduction of the Consumer Product Safety Improvement Act in the U.S. and the Registration, Evaluation, Authorization, and Restriction of Chemicals legislation in the EU demonstrates increasing regulatory and stakeholder concern surrounding the use of harmful or potentially harmful substances in consumer products, including apparel, accessories, and footwear. Finished apparel and footwear products have been found to contain traces of chemicals that have been banned or regulated. Depending on the chemical, the amount present in a product, and the type of exposure that consumers face, specific substances can be carcinogenic, and can disrupt hormone activity in humans and other organisms. Failure to manage this issue may generate additional regulatory oversight and impact a company’s social license to operate. In addition, the presence of harmful chemicals in products can lead to recalls, litigation, and reputational damage. Companies in this industry can work in both the design and manufacturing phases to manage the use of chemicals of concern, develop safe alternatives, and eliminate those that have been banned. Given the industry’s reliance on outsourced manufacturing, this involves proactive partnerships with suppliers. In managing this issue, companies must balance the hazard posed to consumers presented by certain chemicals with the quality of a product and its costs of production.')
-
-    expander = st.expander("Management of Chemicals in Products")
-    expander.write('The introduction of the Consumer Product Safety Improvement Act in the U.S. and the Registration, Evaluation, Authorization, and Restriction of Chemicals legislation in the EU demonstrates increasing regulatory and stakeholder concern surrounding the use of harmful or potentially harmful substances in consumer products, including apparel, accessories, and footwear. Finished apparel and footwear products have been found to contain traces of chemicals that have been banned or regulated. Depending on the chemical, the amount present in a product, and the type of exposure that consumers face, specific substances can be carcinogenic, and can disrupt hormone activity in humans and other organisms. Failure to manage this issue may generate additional regulatory oversight and impact a company’s social license to operate. In addition, the presence of harmful chemicals in products can lead to recalls, litigation, and reputational damage. Companies in this industry can work in both the design and manufacturing phases to manage the use of chemicals of concern, develop safe alternatives, and eliminate those that have been banned. Given the industry’s reliance on outsourced manufacturing, this involves proactive partnerships with suppliers. In managing this issue, companies must balance the hazard posed to consumers presented by certain chemicals with the quality of a product and its costs of production.')
-
-
-st.subheader('This is a map :')
+st.subheader('Map of emissions:')
 
 with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     counties = json.load(response)
