@@ -61,7 +61,7 @@ st.set_page_config(layout="wide")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header('GreenwashScore :')
+    st.header('GreenwatchScore :')
     option = st.selectbox(
         'What is your sector?',
         (list_industry))
@@ -162,7 +162,7 @@ with col2bis:
     st.subheader('Questions :')
 
     for i in range(len(select1)):
-        expander = st.expander(select1['Accounting Metric Category'][i])
+        expander = st.expander(select1['Disclosure Topic'][i])
         expander.write(select1['Accounting Metric'][i])
         
 
