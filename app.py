@@ -109,7 +109,7 @@ with col2:
 
     with scol5:
         cir_o = select_note['Circular Economy_Ordinal'][0]
-        st.image(Image.open(f'src/Score_{cli_o}.png'), caption='Circular Economy')
+        st.image(Image.open(f'src/Score_{cir_o}.png'), caption='Circular Economy')
 
     scol6, scol7 = st.columns(2)
 
