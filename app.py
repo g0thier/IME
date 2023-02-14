@@ -97,7 +97,7 @@ with col1:
         r=[cli, pol, wat, bio, cir],
         theta=['Climate change','Pollution','Water and marine resources',
             'Biodiversity', 'Circular economy']))
-    fig = px.line_polar(df, r='r', theta='theta', line_close=True)
+    fig = px.line_polar(df, r='r', theta='theta', line_close=True, range_r=[0,100])
     fig.update_traces(fill='toself')
     st.plotly_chart(fig, use_container_width=True)
     
