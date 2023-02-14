@@ -15,12 +15,12 @@ from PIL import Image
 from urllib.request import urlopen
 import json
 
-df = pd.read_excel('src/SASB.xlsx', sheet_name= 0)
-df1 = pd.read_excel('src/SASB.xlsx', sheet_name= 1)
+df = pd.read_excel('src/sasb_secteurs_exio.xlsx', sheet_name= 0)
+df1 = pd.read_excel('src/sasb_secteurs_exio.xlsx', sheet_name= 1)
 #df_note = pd.read_csv('src/notation.csv')
 df_note = pd.read_excel('src/score_all.xlsx', sheet_name='score')
 
-list_industry = df_note['Industry'].unique().tolist()
+list_industry = df['Industry'].unique().tolist()
 
 score_A = Image.open('src/Score_A.png')
 score_B = Image.open('src/Score_B.png')
@@ -132,8 +132,6 @@ with col2:
 
     note = select_note['Globals'][0] 
     score_global = to_numbers(select_note['Globals'][0])
-
-    st.text(score_global)
 
     score_gcolor = to_colours( score_global )
 
