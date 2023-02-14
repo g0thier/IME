@@ -84,6 +84,7 @@ with col1:
     fig = px.line_polar(df, r='r', theta='theta', line_close=True)
     fig.update_traces(fill='toself')
     st.plotly_chart(fig, use_container_width=True)
+    
 
 with col2:
     st.title(' ')
@@ -148,19 +149,19 @@ with col2bis:
         expander.write(select1['Accounting Metric'][i])
         
 
-st.subheader('Map of emissions:')
+# st.subheader('Map of emissions:')
 
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-    counties = json.load(response)
+# with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
+#     counties = json.load(response)
 
-df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv",
-                 dtype={"fips": str})
+# df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv",
+#                  dtype={"fips": str})
 
-fig = go.Figure(go.Choroplethmapbox(geojson=counties, locations=df.fips, z=df.unemp,
-                                    colorscale="Viridis", zmin=0, zmax=12,
-                                    marker_opacity=0.5, marker_line_width=0))
-fig.update_layout(mapbox_style="carto-positron",
-                mapbox_zoom=3, mapbox_center = {"lat": 37.0902, "lon": -95.7129})
-fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+# fig = go.Figure(go.Choroplethmapbox(geojson=counties, locations=df.fips, z=df.unemp,
+#                                     colorscale="Viridis", zmin=0, zmax=12,
+#                                     marker_opacity=0.5, marker_line_width=0))
+# fig.update_layout(mapbox_style="carto-positron",
+#                 mapbox_zoom=3, mapbox_center = {"lat": 37.0902, "lon": -95.7129})
+# fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
-st.plotly_chart(fig, use_container_width=True)
+# st.plotly_chart(fig, use_container_width=True)
