@@ -17,6 +17,7 @@ import json
 
 df = pd.read_excel('src/SASB.xlsx', sheet_name= 0)
 df1 = pd.read_excel('src/SASB.xlsx', sheet_name= 1)
+df_note = pd.read_csv('src/notation.csv')
 
 list_industry = df['Industry'].unique().tolist()
 
@@ -25,6 +26,19 @@ score_B = Image.open('src/Score_B.png')
 score_C = Image.open('src/Score_C.png')
 score_D = Image.open('src/Score_D.png')
 score_E = Image.open('src/Score_E.png')
+
+
+def to_colours(chiffre):
+    if chiffre >= 80:
+        return '#00FF6A'
+    elif chiffre < 80 and chiffre >= 60:
+        return '#FFD300'
+    elif chiffre < 60 and chiffre >= 40:
+        return '#FF9900'
+    elif chiffre < 40 and chiffre >= 20:
+        return '#FF0A00'
+    elif chiffre < 20 and chiffre >= 00:
+        return '#AC00FF'
 
 # SETTING PAGE CONFIG TO WIDE MODE
 st.set_page_config(layout="wide")
@@ -41,9 +55,11 @@ with col1:
 
     # Depuis la selection de Menu déroulant
     select = df[ df['Industry'] == str(option) ].reset_index()
-    
+
     select1 = df1[ df1['Industry'] == str(option) ].reset_index()
     select1 = select1[ select1['Accounting Metric Category'] == 'Discussion and Analysis'].reset_index()
+
+    select_note = df_note[ df_note['Industry'] == str(option) ].reset_index()
 
 with col2:
     #if st.button('Say hello'):
@@ -55,9 +71,14 @@ with col2:
 
 with col1:
     # st.title('This is a plot :')
+    cli = select_note['Climate Change'][0]
+    pol = select_note['Pollution'][0]
+    wat = select_note['Water and Marine Resources'][0]
+    bio = select_note['Biodiversity and Ecosystems'][0]
+    cir = select_note['Circular Economy'][0]
 
     df = pd.DataFrame(dict(
-        r=[1, 5, 2, 2, 3],
+        r=[cli, pol, wat, bio, cir],
         theta=['Climate Change','Pollution','Water and Marine Resources',
             'Biodiversity and Ecosystems', 'Circular Economy']))
     fig = px.line_polar(df, r='r', theta='theta', line_close=True)
@@ -71,21 +92,30 @@ with col2:
     scol1, scol2, scol3, scol4, scol5 = st.columns(5)
 
     with scol1:
-        st.image(score_A, caption='Climate Change')
+        cli_o = select_note['Climate Change_Ordinal'][0]
+        st.image(Image.open(f'src/Score_{cli_o}.png'), caption='Climate Change')
+
     with scol2:
-        st.image(score_B, caption='Pollution')
+        pol_o = select_note['Pollution_Ordinal'][0]
+        st.image(Image.open(f'src/Score_{pol_o}.png'), caption='Pollution')
+
     with scol3:
-        st.image(score_C, caption='Water and Marine Resources')
+        wat_o = select_note['Water and Marine Resources_Ordinal'][0]
+        st.image(Image.open(f'src/Score_{wat_o}.png'), caption='Water and Marine Resources')
+
     with scol4:
-        st.image(score_D, caption='Biodiversity and Ecosystems')
+        bio_o = select_note['Biodiversity and Ecosystems_Ordinal'][0]
+        st.image(Image.open(f'src/Score_{bio_o}.png'), caption='Biodiversity and Ecosystems')
+
     with scol5:
-        st.image(score_E, caption='Circular Economy')
+        cir_o = select_note['Circular Economy_Ordinal'][0]
+        st.image(Image.open(f'src/Score_{cli_o}.png'), caption='Circular Economy')
 
     scol6, scol7 = st.columns(2)
 
-    note = 'C'
-    score_global = 98 
-    score_gcolor = 'orange'
+    note = select_note['Globals_Ordinal'][0]
+    score_global = select_note['Globals'][0]
+    score_gcolor = to_colours(score_global)
 
     components.html(f"""
     <div style="display: flex; width: 400px; height: 100px; background-color: #f2f2f2; border-radius: 40px; margin: auto;">
