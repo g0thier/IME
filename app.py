@@ -43,11 +43,12 @@ def to_colours(chiffre):
 # SETTING PAGE CONFIG TO WIDE MODE
 st.set_page_config(layout="wide")
 
-st.header('Indice de Maturité Environnemental :')
+
 
 col1, col2 = st.columns(2)
 
 with col1:
+    st.header('GreenwashScore :')
     option = st.selectbox(
         'What is your sector?',
         (list_industry))
@@ -67,6 +68,8 @@ with col2:
     #else:
     #    st.write('Goodbye')
     st.write(' ')
+    st.image(Image.open(f'src/logo.png'))
+
 
 
 with col1:
@@ -148,6 +151,10 @@ with col2bis:
         expander = st.expander(select1['Accounting Metric Category'][i])
         expander.write(select1['Accounting Metric'][i])
         
+
+st.caption('Projet Bpifrance Hackathon climat')
+st.caption('Équipe Greenwash : Aicha D., Domitille P., Gauthier R., Jean-Sébastien A., Mahaba S., Rollande D., Timothée B., William B.')
+
 
 # st.subheader('Map of emissions:')
 
