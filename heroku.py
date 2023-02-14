@@ -19,9 +19,9 @@ send_name = send_name[:30]
 
 os.system(f'docker build . -t {send_name}')
 
-os.system(f'docker run -p 8080:8080 -e PORT=8080 applicationdocker{now}')
+# os.system(f'docker run -p 8080:8080 -e PORT=8080 applicationdocker{now}')
 
-'''
+
 os.system('heroku login')
 time.sleep(10)
 os.system("heroku container:login")
@@ -37,4 +37,3 @@ os.system(f"heroku create {send_name}")
 os.system(f"heroku container:push web -a {send_name}")
 os.system(f"heroku container:release web -a {send_name}")
 os.system(f"heroku open -a {send_name}")
-'''
